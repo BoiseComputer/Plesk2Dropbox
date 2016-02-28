@@ -81,9 +81,20 @@ while getopts "vrsh" opt; do
         else
                 echo -e "${red}ERROR:${nocolor} The Dropbox Backup directory does not exist"
         fi
-		
-        #Information output
-        echo ;echo -e "The backup named ${yellow}$backupname${nocolor} will be exported to DropBox under the filename ${yellow}$currentday.tar${nocolor}";echo
+        
+		#Check to see if Plesk Backup script exists.
+        FILE=~/fullbackup.php
+        if [ -f $FILE ]; then
+                echo -e "${green}SUCCESS:${nocolor} The Plesk Backup Script Exists."
+        else
+                echo -e "File $FILE does not exist."
+            echo -e "Downloading the Plesk Backup script for command line."
+                wget www.biteoftech.com/fullbackup.php -O ~/fullbackup.php
+                chmod u+x ~/fullbackup.php
+        fi		
+        
+		#Information output
+        echo ;echo -e "The backup named ${yellow}$backupname${nocolor} will be exported to DropBox under the filename ${yellow}$currentday.tar.gz${nocolor}";echo
         echo -e "Current Backup   : "${red}$currentbackup${nocolor}
         echo -e "Backup Name      : "${red}$backupname${nocolor}
         echo -e "Backup Location  : "${red}$backuplocation${nocolor}
@@ -91,17 +102,15 @@ while getopts "vrsh" opt; do
         echo -e "Dropbox Folder   : "${red}$dropboxfolder${nocolor}
         echo -e "Current Day      : "${red}$currentday${nocolor};echo
 		
-        #Removing --no-gzip did not seem to shrink the filesize of the backup.
-        echo -e "Example Output: ${yellow}/usr/bin/perl $PRODUCT_ROOT_D/admin/bin/plesk_agent_manager export-dump-as-file --dump-file-name=$currentbackup --output-file=$backuplocation/$currentday.tar --no-gzip${nocolor}"
-        #.gz is not on the end of the file since this is not gzipped.
-        echo -e "Example Output: ${yellow}mv -f $backuplocation/$currentday.tar $dropboxfolder/${nocolor}";echo
+		echo -e "Example Output: ${yellow}~/fullbackup.php -e $currentbackup $backuplocation/$currentday.tar.gz${nocolor}"
+        echo -e "Example Output: ${yellow}mv -f $backuplocation/$currentday.tar.gz $dropboxfolder/${nocolor}";echo
       ;;
     (r)
         echo -e "Exporting backup to TAR file."
-		/usr/bin/perl $PRODUCT_ROOT_D/admin/bin/plesk_agent_manager export-dump-as-file --dump-file-name=$currentbackup --output-file=$backuplocation/$currentday.tar --no-gzip
+		~/fullbackup.php -e $currentbackup $backuplocation/$currentday.tar.gz
 		echo -e "Export done."
 		echo -e "Copying file to Dropbox."
-		mv -f $backuplocation/$currentday.tar $dropboxfolder/
+		mv -f $backuplocation/$currentday.tar.gz $dropboxfolder/
 		echo -e "Copy done."
      ;;
     (s)
