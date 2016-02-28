@@ -22,6 +22,7 @@
 #    	Set TERM environment variable to avoid error message in Cron job.
 #		Added ability to check the status of uploading your current backup.
 # 0.3 - Adjusted path to be compatible with CentOS.
+# 0.4 - Changed to Plesk Backup utility fullbackup.php
 #
 # 09-27-2014 Created by Brian Aldridge - www.BiteOfTech.com
 # ---------------------------------------------------------------------------
