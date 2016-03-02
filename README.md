@@ -22,3 +22,4 @@ Filenames will resemble: Saturday.tar, Monday.tar, etc.
 - 0.4.0 - Changed to Plesk Backup utility fullbackup.php
 - 0.4.1 - Implemented version check/update and .cfg file for custom settings.
 - 0.4.2 - Fixed error creating config file. Removed unused text and spacing from script.
+- 0.4.3 - Add Dropbox Command Line Script
