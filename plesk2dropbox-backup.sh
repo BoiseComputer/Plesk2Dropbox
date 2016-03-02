@@ -47,6 +47,7 @@ currentday="$(date +"%A")"
 if [ -f "/etc/plesk2dropbox/plesk2dropbox.cfg" ]; then
     source /etc/plesk2dropbox/plesk2dropbox.cfg
 else
+    mkdir -p /etc/plesk2dropbox/
     touch /etc/plesk2dropbox/plesk2dropbox.cfg
     echo '#Change to the temporary folder to store your backup file.' >> /etc/plesk2dropbox/plesk2dropbox.cfg
     echo 'backuplocation="/var/backups" #CHANGEME' >> /etc/plesk2dropbox/plesk2dropbox.cfg
