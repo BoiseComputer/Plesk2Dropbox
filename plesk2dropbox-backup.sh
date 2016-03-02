@@ -16,33 +16,17 @@
 #
 # Usage: plesk2dropbox-backup.sh [-v : Verbose Mode] [-r : Run Backup] [-s : Dropbox Status] [-h : Display Help]
 #
-# Revision history:
-# 0.1 - Initial version
-# 0.2 - Changed from dash to bash and converted echo strings.
-#       Set TERM environment variable to avoid error message in Cron job.
-#               Added ability to check the status of uploading your current backup.
-# 0.3.0 - Adjusted path to be compatible with CentOS.
-# 0.4.0 - Changed to Plesk Backup utility fullbackup.php
-# 0.4.1 - Implemented version check/update and .cfg file for custom settings.
-#
 # 09-27-2014 Created by Brian Aldridge - www.BiteOfTech.com
 # ---------------------------------------------------------------------------
-
 export TERM=${TERM:-dumb}
 PROGNAME=${0##*/}
-plesk2dropboxVersion="0.4.1"
+plesk2dropboxVersion="0.4.2"
 #Grab path that is compatible with various distros.
 PRODUCT_ROOT_D=`grep PRODUCT_ROOT_D /etc/psa/psa.conf | awk '{print $2}'`
-
 #Setting colors for display.
 red="\033[31m";yellow="\033[33m";green="\033[32m";nocolor="\033[0m"
-
 #Finds the day of the week.
 currentday="$(date +"%A")"
-
-#backuplocation="/var/backups"
-#dropboxfolder="/root/Dropbox/Backups"
-#backupsource="/var/lib/psa/dumps"
 # Global variables
 if [ -f "/etc/plesk2dropbox/plesk2dropbox.cfg" ]; then
     source /etc/plesk2dropbox/plesk2dropbox.cfg
@@ -59,15 +43,12 @@ else
 fi
 #Finds the most recent server backup created in Plesk.
 currentbackup="$(ls -Art $backupsource/*.xml | tail -n 1)"
-
 #Gets just the filename for display purposes.
 backupname="$(ls -1 $currentbackup | sed 's/^.*\///')"
-
 #Displays Help
 usage()
 { echo -e "Usage: $PROGNAME [${red}-v${nocolor} : Verbose Mode] [${red}-r${nocolor} : Run Backup] [${red}-s${nocolor} : Dropbox Status] [${red}-u${nocolor} : Update Plesk2Dropbox] [${red}-h${nocolor}: Display Help]"
- }
-
+}
 #Catch options
 while getopts "vrsuh" opt; do
   case $opt in
@@ -152,8 +133,6 @@ while getopts "vrsuh" opt; do
         else
         echo -e "You are already running the most recent version of Plesk2Dropbox"
         fi
-
-
      ;;
     (h)
         usage
@@ -171,10 +150,9 @@ while getopts "vrsuh" opt; do
         exit;;
   esac
 done
-
 # Checking for no attribute.
 if [ -z "$1" ]
  then
   usage
   exit 1
- fi
+fi
