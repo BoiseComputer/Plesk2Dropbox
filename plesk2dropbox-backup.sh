@@ -20,7 +20,7 @@
 # ---------------------------------------------------------------------------
 export TERM=${TERM:-dumb}
 PROGNAME=${0##*/}
-plesk2dropboxVersion="0.4.2"
+plesk2dropboxVersion="0.4.3"
 #Grab path that is compatible with various distros.
 PRODUCT_ROOT_D=`grep PRODUCT_ROOT_D /etc/psa/psa.conf | awk '{print $2}'`
 #Setting colors for display.
@@ -82,14 +82,24 @@ while getopts "vrsuh" opt; do
                 echo -e "${red}ERROR:${nocolor} The Dropbox Backup directory does not exist"
         fi
         #Check to see if Plesk Backup script exists.
-        FILE=~/fullbackup.php
+        FILE=/etc/plesk2dropbox/fullbackup.php
         if [ -f $FILE ]; then
                 echo -e "${green}SUCCESS:${nocolor} The Plesk Backup Script Exists."
         else
                 echo -e "File $FILE does not exist."
             echo -e "Downloading the Plesk Backup script for command line."
-                wget www.biteoftech.com/fullbackup.php -O ~/fullbackup.php
-                chmod u+x ~/fullbackup.php
+                wget www.biteoftech.com/fullbackup.php -O /etc/plesk2dropbox/fullbackup.php
+                chmod u+x /etc/plesk2dropbox/fullbackup.php
+        fi
+        #Check to see if Dropbox Management script exists.
+        FILE=/etc/plesk2dropbox/dropbox.py
+        if [ -f $FILE ]; then
+                echo -e "${green}SUCCESS:${nocolor} The Dropbox Command Line Script Exists."
+        else
+                echo -e "File $FILE does not exist."
+            echo -e "Downloading the Dropbox Command Line script for command line."
+                wget www.biteoftech.com/dropbox.py -O /etc/plesk2dropbox/dropbox.py
+                chmod u+x /etc/plesk2dropbox/dropbox.py
         fi
         #Information output
         echo;echo -e "${red}NOTICE: ${nocolor}Some of these settings can be customized by editing ${yellow}/etc/plesk2dropbox/plesk2dropbox.cfg${nocolor}"
@@ -116,7 +126,8 @@ while getopts "vrsuh" opt; do
      ;;
     (s)
         echo -e "Checking the status of Dropbox."
-                dropbox status
+                /etc/plesk2dropbox/dropbox.py status
+        echo -e "If you would like to change your Dropbox settings type ${yellow}/etc/plesk2dropbox/dropbox.py -h${nocolor} to get started"
      ;;
     (u)
         #Script version
