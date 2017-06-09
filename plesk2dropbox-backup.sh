@@ -1,7 +1,7 @@
 #!/bin/bash
 # ---------------------------------------------------------------------------
 #
-# Copyright 2016
+# Copyright 2017
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # ---------------------------------------------------------------------------
 export TERM=${TERM:-dumb}
 PROGNAME=${0##*/}
-plesk2dropboxVersion="0.4.3"
+plesk2dropboxVersion="0.4.4"
 #Grab path that is compatible with various distros.
 PRODUCT_ROOT_D=`grep PRODUCT_ROOT_D /etc/psa/psa.conf | awk '{print $2}'`
 #Setting colors for display.
