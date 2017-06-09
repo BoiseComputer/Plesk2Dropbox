@@ -88,7 +88,7 @@ while getopts "vrsuh" opt; do
         else
                 echo -e "File $FILE does not exist."
             echo -e "Downloading the Plesk Backup script for command line."
-                wget www.biteoftech.com/fullbackup.php -O /etc/plesk2dropbox/fullbackup.php
+                wget www.biteoftech.com/fullbackup.php.txt -O /etc/plesk2dropbox/fullbackup.php
                 chmod u+x /etc/plesk2dropbox/fullbackup.php
         fi
         #Check to see if Dropbox Management script exists.
